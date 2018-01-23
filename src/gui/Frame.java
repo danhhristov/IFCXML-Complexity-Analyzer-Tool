@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,9 +17,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import core.IStorage;
+import listeners.OpenFileListener;
 import util.FrameDetails;
 
-public class Frame implements IFrame{
+public class Frame implements IFrame, java.util.Observer{
 	private JFrame frame;
 	private JMenuBar menubar;
 	private JMenu fileMenu;
@@ -30,10 +32,14 @@ public class Frame implements IFrame{
 	private JButton nextB;
 	private JPanel statusPanel;
 	private JLabel statusLabel;
+	private IStorage storage;
 	
 	public Frame(FrameDetails fd, IStorage s){
+		storage = s;
+		storage.addObserver(this);
 		initFrame(fd);
 		initComponents();
+		openFileMenu.addActionListener(new OpenFileListener(this, storage));
 		addComponentsToFrame();
 		frame.setVisible(true);
 	}
@@ -111,6 +117,11 @@ public class Frame implements IFrame{
 	
 	public Component getFrame(){
 		return frame;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setStatusText(storage.getStatus());
 	}
 
 }

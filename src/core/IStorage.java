@@ -11,4 +11,8 @@ public interface IStorage {
 	public void addHighlight(String highlight);
 	public String getHighlight(int index);
 	public List<String> getAllHighlights();
+	
+	public String getStatus();
+	
+	public void addObserver(java.util.Observer o);
 }

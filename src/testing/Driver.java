@@ -127,6 +127,7 @@ public class Driver {
 					for(int i = 0; i < nodeList.getLength(); i++){
 						Node curr = nodeList.item(i);
 						String name = curr.getNodeName();
+						name = name.intern();
 						//name.intern() - map strings to save space - hold refferences instead of values.
 						
 						/*
@@ -142,7 +143,7 @@ public class Driver {
 							continue;
 						}
 						
-						System.out.println(curr.getNodeName());
+//						System.out.println(curr.getNodeName());
 						
 						if(nodesMap.containsKey(name)){
 							nodesMap.replace(name, (nodesMap.get(name) + 1));
@@ -153,6 +154,7 @@ public class Driver {
 						counter++;
 						for(Node n: getAllNodes(curr)){
 							String nodeName = n.getNodeName();
+							nodeName = nodeName.intern();
 							
 							if(nodesMap.containsKey(nodeName)){
 								nodesMap.replace(nodeName, (nodesMap.get(nodeName) + 1));
@@ -160,7 +162,7 @@ public class Driver {
 								nodesMap.put(nodeName, 1);
 							}
 							
-							System.out.println(n.getNodeName());
+//							System.out.println(n.getNodeName());
 							counter++;
 						}
 						
@@ -189,7 +191,7 @@ public class Driver {
 	
 	private static List<Node> getAllNodes(Node node){
 		
-//		save data about width and bredth of the node
+//		save data about depth and bredth of the node
 		if(!node.hasChildNodes()){
 			return new ArrayList<Node>();
 		}
