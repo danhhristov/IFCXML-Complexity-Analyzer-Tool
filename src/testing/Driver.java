@@ -49,37 +49,37 @@ public class Driver {
 		frame.setSize(new Dimension(700, 700));
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		menubar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		openFileMenu = new JMenuItem("Open...");
-		
+
 		highlightsPanel = new JPanel();
 		highlightsPanel.setSize(new Dimension(500, 650));
 		highlightsPanel.setMinimumSize(new Dimension(500, 650));
 		highlightsPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		JLabel tempInfo = new JLabel("Highlights Panel");
-		tempInfo.setFont(new Font(Font.SANS_SERIF,1,70));
+		tempInfo.setFont(new Font(Font.SANS_SERIF, 1, 70));
 		highlightsPanel.add(tempInfo, BorderLayout.CENTER);
-		
+
 		navigationPanel = new JPanel();
 		navigationPanel.setSize(new Dimension(200, 650));
 		navigationPanel.setMinimumSize(new Dimension(200, 650));
 		navigationPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		
+
 		Dimension buttonDimensions = new Dimension(150, 300);
 		prevB = new JButton("Previous");
 		nextB = new JButton("Next");
 		prevB.setSize(buttonDimensions);
 		nextB.setSize(buttonDimensions);
-		prevB.setFont(new Font(Font.SANS_SERIF,1,32));
-		nextB.setFont(new Font(Font.SANS_SERIF,1,32));
+		prevB.setFont(new Font(Font.SANS_SERIF, 1, 32));
+		nextB.setFont(new Font(Font.SANS_SERIF, 1, 32));
 		prevB.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 		nextB.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		
+
 		JLabel statusLabel = new JLabel("Status");
-		statusLabel.setFont(new Font(Font.SANS_SERIF,1,24));
-		
+		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
+
 		statusPanel = new JPanel();
 		statusPanel.add(statusLabel);
 		statusPanel.setToolTipText("Status");
@@ -87,11 +87,11 @@ public class Driver {
 		statusPanel.setSize(new Dimension(100, 250));
 		statusPanel.setMinimumSize(new Dimension(100, 250));
 		statusPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
-		
+
 		navigationPanel.add(prevB, BorderLayout.EAST);
 		navigationPanel.add(statusPanel, BorderLayout.CENTER);
-		navigationPanel.add(nextB, BorderLayout.WEST);		
-		
+		navigationPanel.add(nextB, BorderLayout.WEST);
+
 		fileMenu.add(openFileMenu);
 		menubar.add(fileMenu);
 		openFileMenu.addActionListener(new ActionListener() {
@@ -105,7 +105,7 @@ public class Driver {
 					subject = fc.getSelectedFile();
 					// This is where a real application would open the file.
 					System.out.println("Opening: " + subject.getName() + ".");
-					
+
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 					DocumentBuilder builder = null;
@@ -120,57 +120,58 @@ public class Driver {
 					} catch (SAXException | IOException e1) {
 						e1.printStackTrace();
 					}
-					
-					
+
 					NodeList nodeList = document.getDocumentElement().getChildNodes();
 					int counter = 0;
-					for(int i = 0; i < nodeList.getLength(); i++){
+					for (int i = 0; i < nodeList.getLength(); i++) {
 						Node curr = nodeList.item(i);
 						String name = curr.getNodeName();
 						name = name.intern();
-						//name.intern() - map strings to save space - hold refferences instead of values.
-						
+						// name.intern() - map strings to save space - hold
+						// refferences instead of values.
+
 						/*
-						 * Custom Class Node structure:
-						 * array of "int" for metric values like depth width and so on
-						 * bit array of attributes  - 10001100 - to say that it has those attributes in the "1" possitions
-						 * e.g - it has attribute 1, attribute 4 and 5 and no others
-						 * then have a look up table to say what each attribute is e.g.
-						 * Attribute 1 is ID, Attribute 4 is colour , etc.
+						 * Custom Class Node structure: array of "int" for
+						 * metric values like depth width and so on bit array of
+						 * attributes - 10001100 - to say that it has those
+						 * attributes in the "1" possitions e.g - it has
+						 * attribute 1, attribute 4 and 5 and no others then
+						 * have a look up table to say what each attribute is
+						 * e.g. Attribute 1 is ID, Attribute 4 is colour , etc.
 						 */
-						
-						if(curr.getNodeName() == "#comment" || curr.getNodeName() == "#text"){
+
+						if (curr.getNodeName() == "#comment" || curr.getNodeName() == "#text") {
 							continue;
 						}
-						
-//						System.out.println(curr.getNodeName());
-						
-						if(nodesMap.containsKey(name)){
+
+						// System.out.println(curr.getNodeName());
+
+						if (nodesMap.containsKey(name)) {
 							nodesMap.replace(name, (nodesMap.get(name) + 1));
-						}else{
+						} else {
 							nodesMap.put(name, 1);
 						}
-						
+
 						counter++;
-						for(Node n: getAllNodes(curr)){
+						for (Node n : getAllNodes(curr)) {
 							String nodeName = n.getNodeName();
 							nodeName = nodeName.intern();
-							
-							if(nodesMap.containsKey(nodeName)){
+
+							if (nodesMap.containsKey(nodeName)) {
 								nodesMap.replace(nodeName, (nodesMap.get(nodeName) + 1));
-							}else{
+							} else {
 								nodesMap.put(nodeName, 1);
 							}
-							
-//							System.out.println(n.getNodeName());
+
+							// System.out.println(n.getNodeName());
 							counter++;
 						}
-						
+
 					}
-					
+
 					System.out.println("The file contains " + counter + " nodes.");
 					nodesMap = MapUtil.sortByValue(nodesMap);
-					for(String key: nodesMap.keySet()){
+					for (String key : nodesMap.keySet()) {
 						System.out.println("Node " + key + " has " + nodesMap.get(key) + " instances");
 					}
 
@@ -179,38 +180,35 @@ public class Driver {
 				}
 			}
 		});
-		
+
 		frame.getContentPane().add(highlightsPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(navigationPanel, BorderLayout.PAGE_END);
 		frame.setJMenuBar(menubar);
 		frame.setVisible(true);
 
-		
 	}
-	
-	
-	private static List<Node> getAllNodes(Node node){
-		
-//		save data about depth and bredth of the node
-		if(!node.hasChildNodes()){
+
+	private static List<Node> getAllNodes(Node node) {
+
+		// save data about depth and bredth of the node
+		if (!node.hasChildNodes()) {
 			return new ArrayList<Node>();
 		}
 		List<Node> allChildren = new ArrayList<Node>();
-		
+
 		NodeList children = node.getChildNodes();
-		
-		for(int i = 0; i < children.getLength(); i++){
+
+		for (int i = 0; i < children.getLength(); i++) {
 			Node currChild = children.item(i);
-			if(currChild.getNodeName() == "#comment" || currChild.getNodeName() == "#text"){
+			if (currChild.getNodeName() == "#comment" || currChild.getNodeName() == "#text") {
 				continue;
 			}
 			allChildren.add(currChild);
-			
+
 			allChildren.addAll(getAllNodes(currChild));
-				
-			
+
 		}
-		
+
 		return allChildren;
 	}
 }

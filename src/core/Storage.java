@@ -1,51 +1,80 @@
 package core;
 
-import java.util.List;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Storage extends java.util.Observable implements IStorage{
+import util.StatusType;
+
+public class Storage extends java.util.Observable implements IStorage {
 	private File subject;
 	private List<String> highlights;
 	private String status;
-	
-	public Storage(){
+	private int statusType;
+	private IAnalyzer currAnalyzer;
+
+	public Storage() {
 		highlights = new ArrayList<String>();
 	}
-	
-	public File getFile(){
+
+	@Override
+	public File getFile() {
 		return subject;
 	}
-	
-	public void setFile(File f){
-		if(f != null)
+
+	@Override
+	public void setFile(File f) {
+		if (f != null)
 			subject = f;
-		updateStatus("File Loaded");
+		setStatus("File Loaded", StatusType.SUCCESS);
 	}
-	
-	public void addHighlight(String h){
+
+	@Override
+	public void addHighlight(String h) {
 		highlights.add(h);
 	}
-	
-	public String getHighlight(int index){
+
+	@Override
+	public String getHighlight(int index) {
 		return highlights.get(index);
 	}
-	
-	public List<String> getAllHighlights(){
+
+	@Override
+	public List<String> getAllHighlights() {
 		return highlights;
 	}
-	
-	private void updateStatus(String msg){
+
+	@Override
+	public void setStatus(String msg, int statusType) {
 		status = msg;
+		this.statusType = statusType;
 		update();
 	}
-	
+
 	private void update() {
 		setChanged();
 		notifyObservers();
 	}
-	
-	public String getStatus(){
+
+	@Override
+	public String getStatus() {
 		return status;
 	}
+
+	@Override
+	public void setAnalyzer(IAnalyzer a) {
+		currAnalyzer = a;
+		setStatus("Analyzer Set!", StatusType.SUCCESS);
+	}
+
+	@Override
+	public IAnalyzer getAnalyzer() {
+		return currAnalyzer;
+	}
+
+	@Override
+	public int getStatusType() {
+		return statusType;
+	}
+
 }

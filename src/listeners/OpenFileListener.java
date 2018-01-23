@@ -8,11 +8,11 @@ import javax.swing.JFileChooser;
 import core.IStorage;
 import gui.IFrame;
 
-public class OpenFileListener implements ActionListener{
+public class OpenFileListener implements ActionListener {
 	private IFrame frame;
 	private IStorage storage;
 
-	public OpenFileListener(IFrame f, IStorage s){
+	public OpenFileListener(IFrame f, IStorage s) {
 		frame = f;
 		storage = s;
 	}
