@@ -3,22 +3,22 @@ package listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import core.IAnalyzer;
+import core.IAnalyser;
 import core.IStorage;
 
-public class SelectAnalyzerListener implements ActionListener {
+public class SelectAnalyserListener implements ActionListener {
 	
 	private IStorage storage;
-	private IAnalyzer analyzer;
+	private IAnalyser analyser;
 	
-	public SelectAnalyzerListener(IStorage s, IAnalyzer a){
+	public SelectAnalyserListener(IStorage s, IAnalyser a){
 		storage = s;
-		analyzer = a;
+		analyser = a;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		storage.setAnalyzer(analyzer);
+		storage.setAnalyser(analyser);
 	}
 
 }

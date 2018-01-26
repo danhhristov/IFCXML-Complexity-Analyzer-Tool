@@ -8,7 +8,7 @@ import util.FrameDetails;
 
 public class Driver {
 	public static void main(String[] args) {
-		FrameDetails mainWindow = new FrameDetails("IFCXML Complexity Analyzer", 700, 700, false);
+		FrameDetails mainWindow = new FrameDetails("IFCXML Complexity Analyser", 700, 700, false);
 
 		IStorage storage = new Storage();
 		IFrame frame = new Frame(mainWindow, storage);

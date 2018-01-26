@@ -2,6 +2,7 @@ package core;
 
 import java.io.File;
 import java.util.List;
+import java.util.Observer;
 
 public interface IStorage {
 
@@ -17,11 +18,11 @@ public interface IStorage {
 
 	public String getStatus();
 
-	public void addObserver(java.util.Observer o);
+	public void addObserver(Observer o);
 	
-	public void setAnalyzer(IAnalyzer a);
+	public void setAnalyser(IAnalyser a);
 	
-	public IAnalyzer getAnalyzer();
+	public IAnalyser getAnalyser();
 	
 	public void setStatus(String msg, int statusType);
 	

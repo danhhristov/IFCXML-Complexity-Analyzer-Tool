@@ -17,22 +17,23 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import core.IStorage;
-import core.SimpleMetricsAnalyzer;
-import listeners.AnalyzeFileListener;
+import core.SimpleMetricsAnalyser;
+import listeners.AnalyseFileListener;
 import listeners.OpenFileListener;
-import listeners.SelectAnalyzerListener;
+import listeners.SelectAnalyserListener;
 import util.FrameDetails;
 import util.StatusType;
+import java.util.Observer;
 
-public class Frame implements IFrame, java.util.Observer {
+public class Frame implements IFrame, Observer {
 	private JFrame frame;
 	private JMenuBar menubar;
 	private JMenu fileMenu;
 	private JMenuItem openFileMenu;
 	private JMenu runMenu;
-	private JMenuItem analyzeMenu;
-	private JMenu analyzersMenu;
-	private JMenuItem simpleAnalyzerMenu;
+	private JMenuItem analyseMenu;
+	private JMenu analysersMenu;
+	private JMenuItem simpleAnalyserMenu;
 	private JPanel highlightsPanel;
 	private JLabel highlightsLabel;
 	private JPanel navigationPanel;
@@ -67,14 +68,14 @@ public class Frame implements IFrame, java.util.Observer {
 		fileMenu.setFont(menuFont);
 		openFileMenu = new JMenuItem("Open...");
 		openFileMenu.setFont(menuFont);
-		analyzersMenu = new JMenu("Analyzers");
-		analyzersMenu.setFont(menuFont);
-		simpleAnalyzerMenu = new JMenuItem("Simple");
+		analysersMenu = new JMenu("Analysers");
+		analysersMenu.setFont(menuFont);
+		simpleAnalyserMenu = new JMenuItem("Simple");
 
 		runMenu = new JMenu("Run");
 		runMenu.setFont(menuFont);
-		analyzeMenu = new JMenuItem("Analyze");
-		analyzeMenu.setFont(menuFont);
+		analyseMenu = new JMenuItem("Analyse");
+		analyseMenu.setFont(menuFont);
 
 		highlightsPanel = new JPanel();
 		highlightsPanel.setSize(680, 500);
@@ -118,17 +119,17 @@ public class Frame implements IFrame, java.util.Observer {
 		navigationPanel.add(nextB, BorderLayout.LINE_END);
 
 		fileMenu.add(openFileMenu);
-		runMenu.add(analyzeMenu);
-		analyzersMenu.add(simpleAnalyzerMenu);
+		runMenu.add(analyseMenu);
+		analysersMenu.add(simpleAnalyserMenu);
 		menubar.add(fileMenu);
 		menubar.add(runMenu);
-		menubar.add(analyzersMenu);
+		menubar.add(analysersMenu);
 	}
 
 	private void addListeners(){
 		openFileMenu.addActionListener(new OpenFileListener(this, storage));
-		analyzeMenu.addActionListener(new AnalyzeFileListener(storage));
-		simpleAnalyzerMenu.addActionListener(new SelectAnalyzerListener(storage, new SimpleMetricsAnalyzer()));
+		analyseMenu.addActionListener(new AnalyseFileListener(storage));
+		simpleAnalyserMenu.addActionListener(new SelectAnalyserListener(storage, new SimpleMetricsAnalyser()));
 	}
 	
 	private void addComponentsToFrame() {

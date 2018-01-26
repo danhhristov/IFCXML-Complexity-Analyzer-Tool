@@ -3,15 +3,17 @@ package core;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import util.StatusType;
 
-public class Storage extends java.util.Observable implements IStorage {
+public class Storage extends java.util.Observable implements IStorage, Observer {
 	private File subject;
 	private List<String> highlights;
 	private String status;
 	private int statusType;
-	private IAnalyzer currAnalyzer;
+	private IAnalyser currAnalyser;
 
 	public Storage() {
 		highlights = new ArrayList<String>();
@@ -62,19 +64,25 @@ public class Storage extends java.util.Observable implements IStorage {
 	}
 
 	@Override
-	public void setAnalyzer(IAnalyzer a) {
-		currAnalyzer = a;
-		setStatus("Analyzer Set!", StatusType.SUCCESS);
+	public void setAnalyser(IAnalyser a) {
+		currAnalyser = a;
+		currAnalyser.addObserver(this);
+		setStatus("Analyser Set!", StatusType.SUCCESS);
 	}
 
 	@Override
-	public IAnalyzer getAnalyzer() {
-		return currAnalyzer;
+	public IAnalyser getAnalyser() {
+		return currAnalyser;
 	}
 
 	@Override
 	public int getStatusType() {
 		return statusType;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setStatus("Analysis Completed", StatusType.SUCCESS);
 	}
 
 }

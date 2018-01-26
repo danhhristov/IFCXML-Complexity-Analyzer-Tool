@@ -2,14 +2,14 @@ package util;
 
 import java.util.List;
 
-public class Node {
+public class XNode {
 	private int[] metrics;
 	private int attributes;
 	private String parentID;
 	private String id;
 	private List<String> childrenIDs;
 	
-	public Node(){
+	public XNode(){
 		
 	}
 
@@ -73,6 +73,10 @@ public class Node {
 
 	public void setChildrenIDs(List<String> childrenIDs) {
 		this.childrenIDs = childrenIDs;
+	}
+	
+	public void addChidrenId(String childId){
+		childrenIDs.add(childId);
 	}
 
 }
