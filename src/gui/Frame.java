@@ -23,6 +23,8 @@ import listeners.OpenFileListener;
 import listeners.SelectAnalyserListener;
 import util.FrameDetails;
 import util.StatusType;
+import util.UpdateType;
+
 import java.util.Observer;
 
 public class Frame implements IFrame, Observer {
@@ -34,8 +36,8 @@ public class Frame implements IFrame, Observer {
 	private JMenuItem analyseMenu;
 	private JMenu analysersMenu;
 	private JMenuItem simpleAnalyserMenu;
-	private JPanel highlightsPanel;
-	private JLabel highlightsLabel;
+	private JPanel statsPanel;
+	private JLabel statsLabel;
 	private JPanel navigationPanel;
 	private JButton prevB;
 	private JButton nextB;
@@ -50,7 +52,6 @@ public class Frame implements IFrame, Observer {
 		initComponents();
 		addListeners();
 		addComponentsToFrame();
-//		frame.pack();
 		frame.setVisible(true);
 	}
 
@@ -77,31 +78,23 @@ public class Frame implements IFrame, Observer {
 		analyseMenu = new JMenuItem("Analyse");
 		analyseMenu.setFont(menuFont);
 
-		highlightsPanel = new JPanel();
-		highlightsPanel.setSize(680, 500);
-		// highlightsPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		statsPanel = new JPanel();
+		statsPanel.setSize(680, 500);
 
-		highlightsLabel = new JLabel("Highlights Panel");
-		highlightsLabel.setFont(new Font(Font.SANS_SERIF, 1, 70));
-		highlightsPanel.add(highlightsLabel, BorderLayout.CENTER);
+		statsLabel = new JLabel("File Stats Panel");
+		statsLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
+		statsPanel.add(statsLabel, BorderLayout.CENTER);
 
 		navigationPanel = new JPanel();
 		navigationPanel.setSize(680, 150);
-		// navigationPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
-//		Dimension bDimensions = new Dimension();
 		Font bFont = new Font(Font.SANS_SERIF, 1, 32);
-//		Color bColor = Color.GREEN;
 		prevB = new JButton("Previous");
 		nextB = new JButton("Next");
-//		prevB.setSize(150, 300);
-//		nextB.setSize(150, 300);
 		prevB.setFocusPainted(false);
 		nextB.setFocusPainted(false);
 		prevB.setFont(bFont);
 		nextB.setFont(bFont);
-		// prevB.setBorder(BorderFactory.createLineBorder(bColor));
-		// nextB.setBorder(BorderFactory.createLineBorder(bColor));
 
 		statusLabel = new JLabel("Status");
 		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
@@ -112,7 +105,6 @@ public class Frame implements IFrame, Observer {
 		statusPanel.setForeground(Color.YELLOW);
 		statusPanel.setSize(new Dimension(100, 250));
 		statusPanel.setMinimumSize(new Dimension(100, 250));
-		// statusPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
 
 		navigationPanel.add(prevB, BorderLayout.LINE_START);
 		navigationPanel.add(statusPanel, BorderLayout.CENTER);
@@ -126,14 +118,15 @@ public class Frame implements IFrame, Observer {
 		menubar.add(analysersMenu);
 	}
 
-	private void addListeners(){
+	private void addListeners() {
+		// RUN menu should be shown only if both file and analyzer are selected.
 		openFileMenu.addActionListener(new OpenFileListener(this, storage));
 		analyseMenu.addActionListener(new AnalyseFileListener(storage));
 		simpleAnalyserMenu.addActionListener(new SelectAnalyserListener(storage, new SimpleMetricsAnalyser()));
 	}
-	
+
 	private void addComponentsToFrame() {
-		frame.getContentPane().add(highlightsPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(statsPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(navigationPanel, BorderLayout.PAGE_END);
 		frame.setJMenuBar(menubar);
 	}
@@ -150,15 +143,19 @@ public class Frame implements IFrame, Observer {
 
 	private void setStatusText(String txt, int statusType) {
 		Color c = null;
-		if (statusType == StatusType.ERROR){
+		if (statusType == StatusType.ERROR) {
 			c = Color.RED;
-		}else if (statusType == StatusType.NORMAL){
+		} else if (statusType == StatusType.NORMAL) {
 			c = Color.YELLOW;
-		}else if (statusType == StatusType.SUCCESS){
+		} else if (statusType == StatusType.SUCCESS) {
 			c = Color.GREEN;
 		}
 		statusLabel.setText(txt);
 		statusLabel.setForeground(c);
+	}
+	
+	private void addStats(String stats){
+		statsLabel.setText(stats);
 	}
 
 	@Override
@@ -168,7 +165,14 @@ public class Frame implements IFrame, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		setStatusText(storage.getStatus(), storage.getStatusType());
+		int update = storage.getUpdate();
+		if (update == UpdateType.STATUS) {
+			setStatusText(storage.getStatus(), storage.getStatusType());
+		} else if (update == UpdateType.STATISTICS) {
+			setStatusText(storage.getStatus(), storage.getStatusType());
+			addStats(storage.getFileStatistics());
+		}
+
 	}
 
 }

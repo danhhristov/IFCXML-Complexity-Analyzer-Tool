@@ -6,4 +6,6 @@ import java.util.Observer;
 public interface IAnalyser {
 	public void analyse(File f);
 	public void addObserver(Observer o);
+	public String getFileStats();
+	public int getStatus();
 }

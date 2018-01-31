@@ -3,7 +3,9 @@ package core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,19 +16,51 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import util.AnalyserStatus;
+
 public class SimpleMetricsAnalyser extends java.util.Observable implements IAnalyser{
 	
+	private int status;
+	private String fileStats;
+	private Map<String, Integer> nodesMap;
+	
 	public SimpleMetricsAnalyser() {
-		
+		status = AnalyserStatus.ERROR;
+		nodesMap = new HashMap<String, Integer>();
 	}
 
 	@Override
 	public void analyse(File subject) {
+		setStatus(AnalyserStatus.ANALYSING);
 		Document parsedDoc = parseFile(subject);
 		Node mainNode = getMainNode(parsedDoc);
 		List<Node> children = getChildren(mainNode);
+		String nodeName = "";
+		Node currNode = null;
+		String mostCommon = "";
+		int maxCount = 0;
+		for(int i = 0; i < children.size(); i ++){
+			currNode = children.get(i);
+			nodeName = currNode.getNodeName();
+			nodeName = nodeName.intern();
+			if (nodesMap.containsKey(nodeName)) {
+				int newVal = (nodesMap.get(nodeName) + 1);
+				nodesMap.replace(nodeName, newVal);
+				if(newVal > maxCount){
+					maxCount = newVal;
+					mostCommon = nodeName;
+				}
+			} else {
+				nodesMap.put(nodeName, 1);
+			}
+		}
 		
-		System.out.println("There are " + children.size() + " nodes in this File");
+		String fileStatus = "<html>There are " + children.size() + " nodes in this file."
+						+ "<br>Out of those, " + nodesMap.size() + " are unique."
+						+ "<br>The most common element in this file is: [" + mostCommon + "]."
+						+ "<br>It was seen " + maxCount + " times.</html>";
+		setFileStats(fileStatus);
+		setStatus(AnalyserStatus.COMPLETED);
 		update();
 	}
 	
@@ -98,6 +132,24 @@ public class SimpleMetricsAnalyser extends java.util.Observable implements IAnal
 	private void update() {
 		setChanged();
 		notifyObservers();
+	}
+	
+	private void setStatus(int analyserStatus){
+		status = analyserStatus;
+	}
+
+	@Override
+	public int getStatus() {
+		return status;
+	}
+	
+	private void setFileStats(String s){
+		fileStats = s;
+	}
+
+	@Override
+	public String getFileStats() {
+		return fileStats;
 	}
 
 }

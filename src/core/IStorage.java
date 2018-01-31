@@ -1,7 +1,6 @@
 package core;
 
 import java.io.File;
-import java.util.List;
 import java.util.Observer;
 
 public interface IStorage {
@@ -10,11 +9,7 @@ public interface IStorage {
 
 	public void setFile(File f);
 
-	public void addHighlight(String highlight);
-
-	public String getHighlight(int index);
-
-	public List<String> getAllHighlights();
+	public String getFileStatistics();
 
 	public String getStatus();
 
@@ -27,4 +22,6 @@ public interface IStorage {
 	public void setStatus(String msg, int statusType);
 	
 	public int getStatusType();
+	
+	public int getUpdate();
 }

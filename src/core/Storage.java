@@ -1,22 +1,22 @@
 package core;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import util.AnalyserStatus;
 import util.StatusType;
+import util.UpdateType;
 
 public class Storage extends java.util.Observable implements IStorage, Observer {
 	private File subject;
-	private List<String> highlights;
+	private String fileStats;
+	private int updateType;
 	private String status;
 	private int statusType;
 	private IAnalyser currAnalyser;
 
 	public Storage() {
-		highlights = new ArrayList<String>();
 	}
 
 	@Override
@@ -31,20 +31,6 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 		setStatus("File Loaded", StatusType.SUCCESS);
 	}
 
-	@Override
-	public void addHighlight(String h) {
-		highlights.add(h);
-	}
-
-	@Override
-	public String getHighlight(int index) {
-		return highlights.get(index);
-	}
-
-	@Override
-	public List<String> getAllHighlights() {
-		return highlights;
-	}
 
 	@Override
 	public void setStatus(String msg, int statusType) {
@@ -67,6 +53,7 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 	public void setAnalyser(IAnalyser a) {
 		currAnalyser = a;
 		currAnalyser.addObserver(this);
+		updateType = UpdateType.STATUS;
 		setStatus("Analyser Set!", StatusType.SUCCESS);
 	}
 
@@ -82,7 +69,26 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 
 	@Override
 	public void update(Observable o, Object arg) {
-		setStatus("Analysis Completed", StatusType.SUCCESS);
+		int status = currAnalyser.getStatus();
+		if (status == AnalyserStatus.COMPLETED){
+			updateType = UpdateType.STATISTICS;
+			setFileStatistics(currAnalyser.getFileStats());
+			setStatus("Analysis Completed", StatusType.SUCCESS);
+		}
+	}
+	
+	private void setFileStatistics(String s){
+		fileStats = s;
+	}
+	
+	@Override
+	public int getUpdate(){
+		return updateType;
+	}
+
+	@Override
+	public String getFileStatistics() {
+		return fileStats;
 	}
 
 }
