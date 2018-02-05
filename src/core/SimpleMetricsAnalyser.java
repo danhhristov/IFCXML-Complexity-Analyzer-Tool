@@ -26,11 +26,11 @@ public class SimpleMetricsAnalyser extends java.util.Observable implements IAnal
 	
 	public SimpleMetricsAnalyser() {
 		status = AnalyserStatus.ERROR;
-		nodesMap = new HashMap<String, Integer>();
 	}
 
 	@Override
 	public void analyse(File subject) {
+		nodesMap = new HashMap<String, Integer>();
 		setStatus(AnalyserStatus.ANALYSING);
 		Document parsedDoc = parseFile(subject);
 		Node mainNode = getMainNode(parsedDoc);
