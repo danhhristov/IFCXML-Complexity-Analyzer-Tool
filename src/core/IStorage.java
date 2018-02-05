@@ -17,6 +17,8 @@ public interface IStorage {
 	
 	public void setAnalyser(IAnalyser a);
 	
+	public void setStartAnalysis();
+	
 	public IAnalyser getAnalyser();
 	
 	public void setStatus(String msg, int statusType);

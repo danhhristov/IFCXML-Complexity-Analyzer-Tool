@@ -55,11 +55,11 @@ public class SimpleMetricsAnalyser extends java.util.Observable implements IAnal
 			}
 		}
 		
-		String fileStatus = "<html>There are " + children.size() + " nodes in this file."
+		String fileStats = "<html>There are " + children.size() + " nodes in this file."
 						+ "<br>Out of those, " + nodesMap.size() + " are unique."
 						+ "<br>The most common element in this file is: [" + mostCommon + "]."
 						+ "<br>It was seen " + maxCount + " times.</html>";
-		setFileStats(fileStatus);
+		setFileStats(fileStats);
 		setStatus(AnalyserStatus.COMPLETED);
 		update();
 	}

@@ -17,6 +17,9 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 	private IAnalyser currAnalyser;
 
 	public Storage() {
+		currAnalyser = new SimpleMetricsAnalyser();
+		currAnalyser.addObserver(this);
+		//Default analyser
 	}
 
 	@Override
@@ -89,6 +92,12 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 	@Override
 	public String getFileStatistics() {
 		return fileStats;
+	}
+
+	@Override
+	public void setStartAnalysis() {
+		updateType = UpdateType.STATUS;
+		setStatus("Analysing ...", StatusType.NORMAL);
 	}
 
 }

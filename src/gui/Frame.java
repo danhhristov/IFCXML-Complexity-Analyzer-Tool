@@ -3,12 +3,13 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Observable;
 
 //import javax.swing.BorderFactory;
-import javax.swing.JButton;
+//import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -18,8 +19,7 @@ import javax.swing.JPanel;
 
 import core.IStorage;
 import core.SimpleMetricsAnalyser;
-import listeners.AnalyseFileListener;
-import listeners.OpenFileListener;
+import listeners.SelectFileListener;
 import listeners.SelectAnalyserListener;
 import util.FrameDetails;
 import util.StatusType;
@@ -31,16 +31,12 @@ public class Frame implements IFrame, Observer {
 	private JFrame frame;
 	private JMenuBar menubar;
 	private JMenu fileMenu;
-	private JMenuItem openFileMenu;
-	private JMenu runMenu;
-	private JMenuItem analyseMenu;
+	private JMenuItem selectFileMenu;
 	private JMenu analysersMenu;
 	private JMenuItem simpleAnalyserMenu;
 	private JPanel statsPanel;
 	private JLabel statsLabel;
 	private JPanel navigationPanel;
-	private JButton prevB;
-	private JButton nextB;
 	private JPanel statusPanel;
 	private JLabel statusLabel;
 	private IStorage storage;
@@ -57,7 +53,7 @@ public class Frame implements IFrame, Observer {
 
 	private void initFrame(FrameDetails fd) {
 		frame = new JFrame(fd.title);
-		frame.setSize(new Dimension(fd.width, fd.height));
+		frame.setMinimumSize(new Dimension(fd.width, fd.height));
 		frame.setResizable(fd.resizable);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -67,16 +63,11 @@ public class Frame implements IFrame, Observer {
 		menubar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		fileMenu.setFont(menuFont);
-		openFileMenu = new JMenuItem("Open...");
-		openFileMenu.setFont(menuFont);
+		selectFileMenu = new JMenuItem("Select");
+		selectFileMenu.setFont(menuFont);
 		analysersMenu = new JMenu("Analysers");
 		analysersMenu.setFont(menuFont);
 		simpleAnalyserMenu = new JMenuItem("Simple");
-
-		runMenu = new JMenu("Run");
-		runMenu.setFont(menuFont);
-		analyseMenu = new JMenuItem("Analyse");
-		analyseMenu.setFont(menuFont);
 
 		statsPanel = new JPanel();
 		statsPanel.setSize(680, 500);
@@ -88,14 +79,6 @@ public class Frame implements IFrame, Observer {
 		navigationPanel = new JPanel();
 		navigationPanel.setSize(680, 150);
 
-		Font bFont = new Font(Font.SANS_SERIF, 1, 32);
-		prevB = new JButton("Previous");
-		nextB = new JButton("Next");
-		prevB.setFocusPainted(false);
-		nextB.setFocusPainted(false);
-		prevB.setFont(bFont);
-		nextB.setFont(bFont);
-
 		statusLabel = new JLabel("Status");
 		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
 
@@ -106,22 +89,16 @@ public class Frame implements IFrame, Observer {
 		statusPanel.setSize(new Dimension(100, 250));
 		statusPanel.setMinimumSize(new Dimension(100, 250));
 
-		navigationPanel.add(prevB, BorderLayout.LINE_START);
 		navigationPanel.add(statusPanel, BorderLayout.CENTER);
-		navigationPanel.add(nextB, BorderLayout.LINE_END);
 
-		fileMenu.add(openFileMenu);
-		runMenu.add(analyseMenu);
+		fileMenu.add(selectFileMenu);
 		analysersMenu.add(simpleAnalyserMenu);
 		menubar.add(fileMenu);
-		menubar.add(runMenu);
 		menubar.add(analysersMenu);
 	}
 
 	private void addListeners() {
-		// RUN menu should be shown only if both file and analyzer are selected.
-		openFileMenu.addActionListener(new OpenFileListener(this, storage));
-		analyseMenu.addActionListener(new AnalyseFileListener(storage));
+		selectFileMenu.addActionListener(new SelectFileListener(this, storage));
 		simpleAnalyserMenu.addActionListener(new SelectAnalyserListener(storage, new SimpleMetricsAnalyser()));
 	}
 
@@ -141,12 +118,15 @@ public class Frame implements IFrame, Observer {
 		return frame.getContentPane().getComponents();
 	}
 
+
 	private void setStatusText(String txt, int statusType) {
 		Color c = null;
+		frame.getContentPane().setCursor(Cursor.getDefaultCursor());
 		if (statusType == StatusType.ERROR) {
 			c = Color.RED;
 		} else if (statusType == StatusType.NORMAL) {
 			c = Color.YELLOW;
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		} else if (statusType == StatusType.SUCCESS) {
 			c = Color.GREEN;
 		}
