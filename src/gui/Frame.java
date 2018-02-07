@@ -7,25 +7,25 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Observable;
+import java.util.Observer;
 
-//import javax.swing.BorderFactory;
-//import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
 import core.IStorage;
 import core.SimpleMetricsAnalyser;
-import listeners.SelectFileListener;
 import listeners.SelectAnalyserListener;
+import listeners.SelectFileListener;
 import util.FrameDetails;
 import util.StatusType;
 import util.UpdateType;
-
-import java.util.Observer;
 
 public class Frame implements IFrame, Observer {
 	private JFrame frame;
@@ -34,9 +34,13 @@ public class Frame implements IFrame, Observer {
 	private JMenuItem selectFileMenu;
 	private JMenu analysersMenu;
 	private JMenuItem simpleAnalyserMenu;
-	private JPanel statsPanel;
-	private JLabel statsLabel;
-	private JPanel navigationPanel;
+	private JTabbedPane tabbedPane;
+	private JPanel simpleStatsTab;
+	private JPanel tableStatsTab;
+	private JTable detailsTable;
+	private JScrollPane tableContainer;
+	private JPanel codeTab;
+	private JLabel simpleStatsLabel;
 	private JPanel statusPanel;
 	private JLabel statusLabel;
 	private IStorage storage;
@@ -59,42 +63,58 @@ public class Frame implements IFrame, Observer {
 	}
 
 	private void initComponents() {
+		
 		Font menuFont = new Font(Font.SANS_SERIF, 3, 18);
+		
 		menubar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		fileMenu.setFont(menuFont);
+		
 		selectFileMenu = new JMenuItem("Select");
 		selectFileMenu.setFont(menuFont);
+		
 		analysersMenu = new JMenu("Analysers");
 		analysersMenu.setFont(menuFont);
+		
 		simpleAnalyserMenu = new JMenuItem("Simple");
-
-		statsPanel = new JPanel();
-		statsPanel.setSize(680, 500);
-
-		statsLabel = new JLabel("File Stats Panel");
-		statsLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
-		statsPanel.add(statsLabel, BorderLayout.CENTER);
-
-		navigationPanel = new JPanel();
-		navigationPanel.setSize(680, 150);
-
-		statusLabel = new JLabel("Status");
-		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
-
-		statusPanel = new JPanel();
-		statusPanel.add(statusLabel);
-		statusPanel.setToolTipText("Status");
-		statusPanel.setForeground(Color.YELLOW);
-		statusPanel.setSize(new Dimension(100, 250));
-		statusPanel.setMinimumSize(new Dimension(100, 250));
-
-		navigationPanel.add(statusPanel, BorderLayout.CENTER);
-
+		
 		fileMenu.add(selectFileMenu);
+		
 		analysersMenu.add(simpleAnalyserMenu);
+		
 		menubar.add(fileMenu);
 		menubar.add(analysersMenu);
+		
+		simpleStatsTab = new JPanel();
+		simpleStatsLabel = new JLabel("File Stats Panel");
+		simpleStatsLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
+		simpleStatsTab.add(simpleStatsLabel, BorderLayout.CENTER);
+
+		statusPanel = new JPanel();
+		statusPanel.setSize(680, 150);
+		statusLabel = new JLabel("Status");
+		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
+		statusPanel.add(statusLabel, BorderLayout.CENTER);
+		
+		tableStatsTab = new JPanel();
+		
+		String[] detailsTableColumns = {"Node Name", "Count"};
+		Object[][] tableData = {{"",""}};
+		
+		detailsTable = new JTable(tableData ,detailsTableColumns);
+		detailsTable.setEnabled(false); //A cheat to prevent users from editing the table data.
+		tableContainer = new JScrollPane(detailsTable);
+		detailsTable.setFillsViewportHeight(true);
+		tableStatsTab.add(tableContainer);
+		
+		codeTab = new JPanel();
+		
+		tabbedPane = new JTabbedPane();
+		tabbedPane.setFont(new Font(Font.SANS_SERIF, 1, 24));
+		tabbedPane.addTab("Simple Stats", simpleStatsTab);
+		tabbedPane.addTab("Detailed Stats", tableStatsTab);
+		tabbedPane.addTab("Code", codeTab);
+		
 	}
 
 	private void addListeners() {
@@ -103,8 +123,8 @@ public class Frame implements IFrame, Observer {
 	}
 
 	private void addComponentsToFrame() {
-		frame.getContentPane().add(statsPanel, BorderLayout.CENTER);
-		frame.getContentPane().add(navigationPanel, BorderLayout.PAGE_END);
+		frame.getContentPane().add(tabbedPane);
+		frame.getContentPane().add(statusPanel, BorderLayout.PAGE_END);
 		frame.setJMenuBar(menubar);
 	}
 
@@ -135,7 +155,7 @@ public class Frame implements IFrame, Observer {
 	}
 	
 	private void addStats(String stats){
-		statsLabel.setText(stats);
+		simpleStatsLabel.setText(stats);
 	}
 
 	@Override
