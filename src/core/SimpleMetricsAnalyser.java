@@ -47,8 +47,10 @@ public class SimpleMetricsAnalyser extends AbstractAnalyser implements IAnalyser
 		
 		String fileStats = "<html>There are " + children.size() + " nodes in this file."
 						+ "<br>Out of those, " + nodesMap.size() + " are unique."
-						+ "<br>The most common element in this file is: [" + mostCommon + "]."
-						+ "<br>It was seen " + maxCount + " times.</html>";
+						+ "<br>Most Common: " + mostCommon + ", seen " +  maxCount + " times."
+						+ "<br>File Size " + this.fileSize + this.fileSizeUnit
+						+ "<br>Breadth " + this.breadth
+						+ "<br>Depth " + this.depth + "</html>";
 		setFileStats(fileStats);
 		setStatus(AnalyserStatus.COMPLETED);
 		update();

@@ -16,12 +16,37 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public abstract class AbstractAnalyser extends Observable implements IAnalyser{
+	
+	public int depth = 1;
+	public int breadth = 1;
+	public long fileSize = 0;
+	public String fileSizeUnit = "";
+	private int fileSizeUnitsIndex = 0;
+	private String[] fileSizeUnits = {"B" , "KB", "MB", "GB", "TB"};
 
 	public List<Node> getNodes(File f){
+		resetStats();
+		calcFileSize(f);
 		Document parsedDoc = parseFile(f);
 		Node mainNode = getMainNode(parsedDoc);
-		List<Node> elements = getChildren(mainNode);
+		List<Node> elements = getChildren(mainNode, 1);
 		return elements;
+	}
+	
+	private void resetStats(){
+		this.depth = 1;
+		this.breadth = 1;
+		this.fileSize = 0;
+		this.fileSizeUnitsIndex = 0;
+	}
+	
+	private void calcFileSize(File f){
+		fileSize = f.length();
+		while(fileSize > 1024){
+			fileSize = fileSize / 1024;
+			fileSizeUnitsIndex ++;
+		}
+		fileSizeUnit = fileSizeUnits[fileSizeUnitsIndex];
 	}
 	
 	private Document parseFile(File f){
@@ -64,12 +89,15 @@ public abstract class AbstractAnalyser extends Observable implements IAnalyser{
 		return null;
 	}
 	
-	private List<Node> getChildren(Node n){
+	private List<Node> getChildren(Node n, int depth){
 		
 		//Consider saving data about node depth and breadth here.
 		List<Node> children = new ArrayList<Node>();
 		
 		if(!n.hasChildNodes()){
+			if(this.depth < depth){
+				this.depth = depth;
+			}
 			return null;
 		}
 		
@@ -80,8 +108,11 @@ public abstract class AbstractAnalyser extends Observable implements IAnalyser{
 			if (node.getNodeName() == "#comment" || node.getNodeName() == "#text") {
 				continue;
 			}
+			if(depth == 1){
+				this.breadth ++;
+			}
 			children.add(node);
-			List<Node> currNodeChildren = getChildren(node);
+			List<Node> currNodeChildren = getChildren(node, depth + 1);
 			if(currNodeChildren != null)
 				children.addAll(currNodeChildren);
 		}

@@ -76,7 +76,8 @@ public class Frame implements IFrame, Observer {
 		analysersMenu = new JMenu("Analysers");
 		analysersMenu.setFont(menuFont);
 		
-		simpleAnalyserMenu = new JMenuItem("Simple");
+		simpleAnalyserMenu = new JMenuItem("Simple (default)");
+		simpleAnalyserMenu.setFont(menuFont);
 		
 		fileMenu.add(selectFileMenu);
 		
