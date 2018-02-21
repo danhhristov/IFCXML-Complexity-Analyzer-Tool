@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import util.AnalyserStatus;
+import util.TableRow;
 import util.XNode;
 
 public class SimpleMetricsAnalyser extends AbstractAnalyser implements IAnalyser {
@@ -43,5 +44,8 @@ public class SimpleMetricsAnalyser extends AbstractAnalyser implements IAnalyser
 		setStatus(AnalyserStatus.COMPLETED);
 		update();
 	}
+
+	@Override
+	public List<TableRow> getTableData() {return null;}
 
 }

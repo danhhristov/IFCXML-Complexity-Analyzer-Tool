@@ -1,43 +1,53 @@
 package core;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Timer;
+import javax.swing.table.TableModel;
+
 import util.AnalyserStatus;
+import util.CustomTableModel;
 import util.StatusType;
+import util.TableRow;
 import util.UpdateType;
 
 public class Storage extends java.util.Observable implements IStorage, Observer {
 	private File subject;
-	private String fileStats;
+	private String simpleFileStats;
 	private int updateType;
 	private String status;
 	private int statusType;
 	private IAnalyser currAnalyser;
+	private CustomTableModel tmodel;
+	private Timer analyserStarterTimer;
 
 	public Storage() {
-		currAnalyser = new SimpleMetricsAnalyser();
-		currAnalyser.addObserver(this);
-		//Default analyser
+		// Default analyser for simple stats
+		this.currAnalyser = new SimpleMetricsAnalyser();
+		this.currAnalyser.addObserver(this);
+		this.tmodel = new CustomTableModel();
+
 	}
 
 	@Override
 	public File getFile() {
-		return subject;
+		return this.subject;
 	}
 
 	@Override
 	public void setFile(File f) {
 		if (f != null)
-			subject = f;
+			this.subject = f;
 		setStatus("File Loaded", StatusType.SUCCESS);
 	}
 
-
 	@Override
 	public void setStatus(String msg, int statusType) {
-		status = msg;
+		this.status = msg;
 		this.statusType = statusType;
 		update();
 	}
@@ -49,55 +59,98 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 
 	@Override
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
 
 	@Override
 	public void setAnalyser(IAnalyser a) {
-		currAnalyser = a;
-		currAnalyser.addObserver(this);
-		updateType = UpdateType.STATUS;
+		this.currAnalyser = a;
+		this.currAnalyser.addObserver(this);
+		this.updateType = UpdateType.STATUS;
 		setStatus("Analyser Set!", StatusType.SUCCESS);
 	}
 
 	@Override
 	public IAnalyser getAnalyser() {
-		return currAnalyser;
+		return this.currAnalyser;
 	}
 
 	@Override
 	public int getStatusType() {
-		return statusType;
+		return this.statusType;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int status = currAnalyser.getStatus();
-		if (status == AnalyserStatus.COMPLETED){
-			updateType = UpdateType.STATISTICS;
-			setFileStatistics(currAnalyser.getFileStats());
+		int status = this.currAnalyser.getStatus();
+		if (status == AnalyserStatus.COMPLETED) {
+			if (this.currAnalyser instanceof SimpleMetricsAnalyser) {
+				this.updateType = UpdateType.SIMPLE_STATISTICS;
+				setSimpleFileStatistics(currAnalyser.getFileStats());
+			} else if (this.currAnalyser instanceof AdvancedMetricsAnalyser) {
+				this.updateType = UpdateType.TABLE_STATISTICS;
+				resetTable();
+				//get all the data from the analyser and add it to the table model
+				for(TableRow row: this.currAnalyser.getTableData()){
+					addTableRow(row);
+				}
+			}
 			setStatus("Analysis Completed", StatusType.SUCCESS);
 		}
 	}
-	
-	private void setFileStatistics(String s){
-		fileStats = s;
+
+	private void setSimpleFileStatistics(String s) {
+		this.simpleFileStats = s;
 	}
-	
+
 	@Override
-	public int getUpdate(){
-		return updateType;
+	public int getUpdate() {
+		return this.updateType;
 	}
 
 	@Override
 	public String getFileStatistics() {
-		return fileStats;
+		return this.simpleFileStats;
 	}
 
 	@Override
 	public void setStartAnalysis() {
-		updateType = UpdateType.STATUS;
+		
+		this.updateType = UpdateType.STATUS;
 		setStatus("Analysing ...", StatusType.NORMAL);
+		analyserStarterTimer = new Timer(200, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currAnalyser.analyse(getFile());
+				analyserStarterTimer.stop();
+			}
+		});
+		analyserStarterTimer.start();
+
+	}
+
+	@Override
+	public TableModel getTableModel() {
+		return this.tmodel;
+	}
+
+	@Override
+	public void addTableRow(TableRow row) {
+		tmodel.addRow(row);
+	}
+
+	@Override
+	public TableRow getTableRow(int index) {
+		TableRow trow = new TableRow();
+		trow.setMetric((String) tmodel.getValueAt(index, 1));
+		trow.setValue((String) tmodel.getValueAt(index, 2));
+		trow.setMoreInfo((String) tmodel.getValueAt(index, 3));
+		System.out.println(trow.getMetric() + ", " + trow.getValue() + ", " + trow.getMoreInfo());
+		return trow;
+	}
+	
+	private void resetTable(){
+		this.tmodel.clearTable();
 	}
 
 }

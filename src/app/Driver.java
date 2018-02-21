@@ -11,6 +11,7 @@ public class Driver {
 		FrameDetails mainWindow = new FrameDetails("IFCXML Complexity Analyser", 800, 700, true);
 
 		IStorage storage = new Storage();
+		@SuppressWarnings("unused")
 		IFrame frame = new Frame(mainWindow, storage);
 	}
 }

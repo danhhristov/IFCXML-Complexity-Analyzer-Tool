@@ -4,16 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
-import javax.swing.Timer;
-
-import core.IAnalyser;
 import core.IStorage;
+import core.SimpleMetricsAnalyser;
 import gui.IFrame;
 
 public class SelectFileListener implements ActionListener {
 	private IFrame frame;
 	private IStorage storage;
-	private Timer t;
 
 	public SelectFileListener(IFrame f, IStorage s) {
 		frame = f;
@@ -28,17 +25,8 @@ public class SelectFileListener implements ActionListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			storage.setFile(fc.getSelectedFile());
 			
-			IAnalyser analyser = storage.getAnalyser();
-			
+			storage.setAnalyser(new SimpleMetricsAnalyser());
 			storage.setStartAnalysis();
-			t = new Timer(200, new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					analyser.analyse(storage.getFile());
-					t.stop();
-				}
-			});
-			t.start();
 		}
 	}
 

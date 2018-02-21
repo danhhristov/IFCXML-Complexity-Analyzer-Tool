@@ -3,6 +3,10 @@ package core;
 import java.io.File;
 import java.util.Observer;
 
+import javax.swing.table.TableModel;
+
+import util.TableRow;
+
 public interface IStorage {
 
 	public File getFile();
@@ -10,6 +14,12 @@ public interface IStorage {
 	public void setFile(File f);
 
 	public String getFileStatistics();
+	
+	public TableModel getTableModel();
+	
+	public void addTableRow(TableRow row);
+	
+	public TableRow getTableRow(int index);
 
 	public String getStatus();
 

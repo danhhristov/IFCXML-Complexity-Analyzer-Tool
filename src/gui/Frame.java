@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -20,8 +21,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import core.IStorage;
-import core.SimpleMetricsAnalyser;
-import listeners.SelectAnalyserListener;
+import listeners.GenerateAdvancedAnalysisListener;
 import listeners.SelectFileListener;
 import util.FrameDetails;
 import util.StatusType;
@@ -32,11 +32,10 @@ public class Frame implements IFrame, Observer {
 	private JMenuBar menubar;
 	private JMenu fileMenu;
 	private JMenuItem selectFileMenu;
-	private JMenu analysersMenu;
-	private JMenuItem simpleAnalyserMenu;
 	private JTabbedPane tabbedPane;
 	private JPanel simpleStatsTab;
 	private JPanel tableStatsTab;
+	private JButton advancedStatsButton;
 	private JTable detailsTable;
 	private JScrollPane tableContainer;
 	private JPanel codeTab;
@@ -63,7 +62,6 @@ public class Frame implements IFrame, Observer {
 	}
 
 	private void initComponents() {
-		
 		Font menuFont = new Font(Font.SANS_SERIF, 3, 18);
 		
 		menubar = new JMenuBar();
@@ -73,18 +71,9 @@ public class Frame implements IFrame, Observer {
 		selectFileMenu = new JMenuItem("Select");
 		selectFileMenu.setFont(menuFont);
 		
-		analysersMenu = new JMenu("Analysers");
-		analysersMenu.setFont(menuFont);
-		
-		simpleAnalyserMenu = new JMenuItem("Simple (default)");
-		simpleAnalyserMenu.setFont(menuFont);
-		
 		fileMenu.add(selectFileMenu);
 		
-		analysersMenu.add(simpleAnalyserMenu);
-		
 		menubar.add(fileMenu);
-		menubar.add(analysersMenu);
 		
 		simpleStatsTab = new JPanel();
 		simpleStatsLabel = new JLabel("File Stats Panel");
@@ -98,15 +87,18 @@ public class Frame implements IFrame, Observer {
 		statusPanel.add(statusLabel, BorderLayout.CENTER);
 		
 		tableStatsTab = new JPanel();
-		
-		String[] detailsTableColumns = {"Node Name", "Count"};
-		Object[][] tableData = {{"",""}};
-		
-		detailsTable = new JTable(tableData ,detailsTableColumns);
-		detailsTable.setEnabled(false); //A cheat to prevent users from editing the table data.
+		advancedStatsButton = new JButton("Generate Advanced Stats");
+		advancedStatsButton.addActionListener(new GenerateAdvancedAnalysisListener(this.storage));
+		advancedStatsButton.setPreferredSize(new Dimension(700,50));
+		advancedStatsButton.setFont(new Font(Font.SANS_SERIF, 1, 16));
+		advancedStatsButton.setEnabled(false);
+		detailsTable = new JTable(storage.getTableModel());
 		tableContainer = new JScrollPane(detailsTable);
 		detailsTable.setFillsViewportHeight(true);
+		detailsTable.setPreferredScrollableViewportSize(new Dimension(700,450));
+		
 		tableStatsTab.add(tableContainer);
+		tableStatsTab.add(advancedStatsButton);
 		
 		codeTab = new JPanel();
 		
@@ -120,7 +112,6 @@ public class Frame implements IFrame, Observer {
 
 	private void addListeners() {
 		selectFileMenu.addActionListener(new SelectFileListener(this, storage));
-		simpleAnalyserMenu.addActionListener(new SelectAnalyserListener(storage, new SimpleMetricsAnalyser()));
 	}
 
 	private void addComponentsToFrame() {
@@ -138,8 +129,7 @@ public class Frame implements IFrame, Observer {
 	public Component[] getComponents() {
 		return frame.getContentPane().getComponents();
 	}
-
-
+	
 	private void setStatusText(String txt, int statusType) {
 		Color c = null;
 		frame.getContentPane().setCursor(Cursor.getDefaultCursor());
@@ -167,13 +157,32 @@ public class Frame implements IFrame, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		int update = storage.getUpdate();
+		
+		if(storage.getStatusType() == StatusType.NORMAL){
+			lockFrame();
+		} else {
+			unlockFrame();
+		}
+		
 		if (update == UpdateType.STATUS) {
 			setStatusText(storage.getStatus(), storage.getStatusType());
-		} else if (update == UpdateType.STATISTICS) {
+		} else if (update == UpdateType.SIMPLE_STATISTICS) {
 			setStatusText(storage.getStatus(), storage.getStatusType());
 			addStats(storage.getFileStatistics());
+		} else if (update == UpdateType.TABLE_STATISTICS){
+			setStatusText(storage.getStatus(), storage.getStatusType());
 		}
 
+	}
+	
+	@Override
+	public void lockFrame() {
+		advancedStatsButton.setEnabled(false);
+	}
+
+	@Override
+	public void unlockFrame() {
+		advancedStatsButton.setEnabled(true);
 	}
 
 }

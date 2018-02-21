@@ -62,7 +62,7 @@ public class SAX_Parser extends DefaultHandler {
 	}
 	
 	private void assignId(XNode n){
-		n.setId(id);
+		n.setId(""+id);
 		id++;
 	}
 

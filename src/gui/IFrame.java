@@ -11,4 +11,8 @@ public interface IFrame {
 	public void setVisible(boolean visible);
 
 	public void update(Observable o, Object arg);
+	
+	public void lockFrame();
+	
+	public void unlockFrame();
 }

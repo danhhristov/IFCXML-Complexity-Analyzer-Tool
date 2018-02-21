@@ -1,23 +1,41 @@
 package core;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import util.AnalyserStatus;
+import util.TableRow;
 import util.XNode;
 
 public class AdvancedMetricsAnalyser extends AbstractAnalyser {
+	private Map<String, XNode> nodes;
+	private List<TableRow> metricsInfo;
+	
+	public AdvancedMetricsAnalyser() {
+		nodes = new HashMap<String, XNode>();
+		metricsInfo = new ArrayList<TableRow>();
+	}
 
 	@Override
 	public void analyse(File f) {
 		setStatus(AnalyserStatus.ANALYSING);
-
+		
 		boolean simpleParse = false;
-		List<XNode> nodes = parseFileSAX(f, simpleParse);
-
-
-		setFileStats("");
-
+		List<XNode> nodesList = parseFileSAX(f, simpleParse);
+		
+//		for(XNode n: nodesList){
+//			nodes.put(n.getId(), n);
+//		}
+		
+		
+		
+		
+		addMetric("File Name", f.getName(), "");
+		
+		
 		setStatus(AnalyserStatus.COMPLETED);
 		update();
 		/*
@@ -54,6 +72,18 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 		 */
 
 	}
+	
+	private void addMetric(String metric, String val, String optional){
+		TableRow row = new TableRow();
+		row.setMetric(metric);
+		row.setValue(val);
+		row.setMoreInfo(optional);
+		metricsInfo.add(row);
+	}
 
+	@Override
+	public List<TableRow> getTableData() {
+		return metricsInfo;
+	}
 
 }

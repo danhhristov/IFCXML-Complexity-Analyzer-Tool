@@ -3,7 +3,7 @@ package util;
 import java.util.List;
 
 public class XNode {
-	private int id;
+	private String id;
 	private String name;
 	private List<String> childrenIDs;
 	private List<String> refferences;
@@ -16,11 +16,11 @@ public class XNode {
 		return this.name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
