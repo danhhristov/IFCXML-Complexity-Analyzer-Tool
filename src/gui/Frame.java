@@ -93,6 +93,8 @@ public class Frame implements IFrame, Observer {
 		advancedStatsButton.setFont(new Font(Font.SANS_SERIF, 1, 16));
 		advancedStatsButton.setEnabled(false);
 		detailsTable = new JTable(storage.getTableModel());
+		detailsTable.setFont(new Font(Font.SANS_SERIF, 0, 16));
+		detailsTable.setRowHeight(26);
 		tableContainer = new JScrollPane(detailsTable);
 		detailsTable.setFillsViewportHeight(true);
 		detailsTable.setPreferredScrollableViewportSize(new Dimension(700,450));

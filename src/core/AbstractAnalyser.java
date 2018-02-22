@@ -48,6 +48,19 @@ public abstract class AbstractAnalyser extends Observable implements IAnalyser {
 		this.depth = 1;
 		this.breadth = 1;
 	}
+	
+	protected int getNumUniqueNodes(List<XNode> nodes){
+		int result = 0;
+		List<String> visited = new ArrayList<String>();
+		for(XNode n : nodes){
+			String nodeName = n.getName();
+			if(!visited.contains(nodeName)){
+				result++;
+				visited.add(nodeName);
+			}
+		}
+		return result;
+	}
 
 	protected List<XNode> parseFileSAX(File f, boolean simpleParse) {
 		resetStats();

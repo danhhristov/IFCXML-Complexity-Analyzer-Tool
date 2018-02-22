@@ -1,15 +1,19 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class XNode {
 	private String id;
+	private String attrId;
 	private String name;
 	private List<String> childrenIDs;
-	private List<String> refferences;
+	private List<String> references;
 	
 	public XNode(String name){
 		this.name = name.intern();
+		childrenIDs = new ArrayList<String>();
+		references = new ArrayList<String>();
 	}
 	
 	public String getName(){
@@ -36,16 +40,24 @@ public class XNode {
 		childrenIDs.add(childId);
 	}
 
-	public List<String> getRefferences() {
-		return refferences;
+	public List<String> getReferences() {
+		return references;
 	}
 
-	public void setRefferences(List<String> refferences) {
-		this.refferences = refferences;
+	public void setReferences(List<String> refferences) {
+		this.references = refferences;
 	}
 	
-	public void addRefference(String ref){
-		this.refferences.add(ref);
+	public void addReference(String ref){
+		this.references.add(ref);
+	}
+
+	public String getAttrId() {
+		return attrId;
+	}
+
+	public void setAttrId(String attrId) {
+		this.attrId = attrId;
 	}
 
 }

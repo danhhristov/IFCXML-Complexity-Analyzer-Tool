@@ -40,6 +40,8 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 
 	@Override
 	public void setFile(File f) {
+		//Garbage collection before setting new file.
+		System.gc();
 		if (f != null)
 			this.subject = f;
 		setStatus("File Loaded", StatusType.SUCCESS);
