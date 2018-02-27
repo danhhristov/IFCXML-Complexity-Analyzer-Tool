@@ -12,13 +12,11 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 import core.IStorage;
 import listeners.GenerateAdvancedAnalysisListener;
@@ -29,11 +27,9 @@ import util.UpdateType;
 
 public class Frame implements IFrame, Observer {
 	private JFrame frame;
-	private JMenuBar menubar;
-	private JMenu fileMenu;
-	private JMenuItem selectFileMenu;
 	private JTabbedPane tabbedPane;
 	private JPanel simpleStatsTab;
+	private JButton loadFileButton;
 	private JPanel tableStatsTab;
 	private JButton advancedStatsButton;
 	private JTable detailsTable;
@@ -52,6 +48,7 @@ public class Frame implements IFrame, Observer {
 		addListeners();
 		addComponentsToFrame();
 		frame.setVisible(true);
+		lockFrame();
 	}
 
 	private void initFrame(FrameDetails fd) {
@@ -62,23 +59,19 @@ public class Frame implements IFrame, Observer {
 	}
 
 	private void initComponents() {
-		Font menuFont = new Font(Font.SANS_SERIF, 3, 18);
 		
-		menubar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		fileMenu.setFont(menuFont);
-		
-		selectFileMenu = new JMenuItem("Select");
-		selectFileMenu.setFont(menuFont);
-		
-		fileMenu.add(selectFileMenu);
-		
-		menubar.add(fileMenu);
+		loadFileButton = new JButton("Select a file");
+		loadFileButton.setFont(new Font(Font.SANS_SERIF, 3, 34));
+		loadFileButton.setPreferredSize(new Dimension(300, 80));
 		
 		simpleStatsTab = new JPanel();
 		simpleStatsLabel = new JLabel("File Stats Panel");
 		simpleStatsLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
-		simpleStatsTab.add(simpleStatsLabel, BorderLayout.CENTER);
+		simpleStatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		simpleStatsLabel.setVerticalAlignment(SwingConstants.CENTER);
+		simpleStatsLabel.setPreferredSize(new Dimension(690, 470));
+		simpleStatsTab.add(simpleStatsLabel, BorderLayout.LINE_START);
+		simpleStatsTab.add(loadFileButton, BorderLayout.CENTER);
 
 		statusPanel = new JPanel();
 		statusPanel.setSize(680, 150);
@@ -86,12 +79,12 @@ public class Frame implements IFrame, Observer {
 		statusLabel.setFont(new Font(Font.SANS_SERIF, 1, 24));
 		statusPanel.add(statusLabel, BorderLayout.CENTER);
 		
+		
 		tableStatsTab = new JPanel();
 		advancedStatsButton = new JButton("Generate Advanced Stats");
 		advancedStatsButton.addActionListener(new GenerateAdvancedAnalysisListener(this.storage));
 		advancedStatsButton.setPreferredSize(new Dimension(700,50));
 		advancedStatsButton.setFont(new Font(Font.SANS_SERIF, 1, 16));
-		advancedStatsButton.setEnabled(false);
 		detailsTable = new JTable(storage.getTableModel());
 		detailsTable.setFont(new Font(Font.SANS_SERIF, 0, 16));
 		detailsTable.setRowHeight(26);
@@ -113,13 +106,12 @@ public class Frame implements IFrame, Observer {
 	}
 
 	private void addListeners() {
-		selectFileMenu.addActionListener(new SelectFileListener(this, storage));
+		loadFileButton.addActionListener(new SelectFileListener(this, storage));
 	}
 
 	private void addComponentsToFrame() {
 		frame.getContentPane().add(tabbedPane);
 		frame.getContentPane().add(statusPanel, BorderLayout.PAGE_END);
-		frame.setJMenuBar(menubar);
 	}
 
 	@Override
@@ -180,6 +172,8 @@ public class Frame implements IFrame, Observer {
 	@Override
 	public void lockFrame() {
 		advancedStatsButton.setEnabled(false);
+		//JTabbedPanes cannot be disabled in the same way buttons can...
+		//Need to find different solution for those.
 	}
 
 	@Override

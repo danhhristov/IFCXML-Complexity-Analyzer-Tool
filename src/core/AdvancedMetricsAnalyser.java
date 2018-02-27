@@ -32,6 +32,9 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 		int totalChildren = 0;
 		int maxChildren = 0;
 		int maxReferalsNum = 0;
+		int totalReferals = 0;
+		float avgReferals = 0 ;
+		
 		XNode biggestParent = null;
 		String mostRefered = "";
 		for(XNode n: nodesList){
@@ -59,6 +62,13 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 			}
 		}
 		
+		for(Integer x: referals.values()){
+			totalReferals += x;
+		}
+		
+		//double digit rounding function looked up on Stack Overflow.
+		//Divide only by the number of refered elements to get an accurate count.
+		avgReferals = (float) (Math.round((float) totalReferals / referals.size() *100.0)/100.0);
 		mostRefered = nodes.get(mostRefered).getName();
 		
 		//Calculating relative Complexity
@@ -76,11 +86,19 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 		}
 		String fileSize = Math.round(fileSizeL) + fileSizeUnits[unitsIndex];
 		
+		//FOR LARGE NUMBERS TRY TO USE NICE FORMATTING -eg 1,234,567,000
 		addMetric("File Name", f.getName(), fileSize);
 		addMetric("Relative Complexity", Math.round(relativeComplexity) + "/100", "");
 		addMetric("Average number of children" , "" + Math.round((totalChildren / totalElements)*100.0)/100.0, "");
 		addMetric("Element with most children" , biggestParent.getName(), maxChildren + " child elements");
 		addMetric("Most refered Element", mostRefered, maxReferalsNum + " number of referals");
+		addMetric("Total references", ""+totalReferals, "for " + referals.size() + " refered elements");
+		addMetric("Average references", ""+avgReferals, "");
+		
+		//avg number of referals 
+		//number of referals - more elements should mean more referals, however a "simple" project with lots of elements
+		//should not be more complicated than a "complex" project with few elements. Consider normalisation with file size AND/OR total number of elements
+		
 		setStatus(AnalyserStatus.COMPLETED);
 		update();
 
