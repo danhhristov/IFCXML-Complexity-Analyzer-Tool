@@ -71,11 +71,21 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 		avgReferals = (float) (Math.round((float) totalReferals / referals.size() *100.0)/100.0);
 		mostRefered = nodes.get(mostRefered).getName();
 		
-		//Calculating relative Complexity
+		//Calculating relative Complexity and Complexity Score
 		float fileSizeL = f.length();
 		float uniqueElements = getNumUniqueNodes(nodesList);
 		float totalElements = nodes.size();
-		float relativeComplexity = (float) Math.abs(Math.pow(Math.abs(10 - Math.abs((Math.abs(fileSizeL / totalElements) * 20) / uniqueElements )), 2));
+		float relComplexity = (float) Math.abs(Math.pow(Math.abs(10 - Math.abs((Math.abs(fileSizeL / totalElements) * 20) / uniqueElements )), 2) / avgReferals) * 2;
+		float complexityScore = (float) Math.abs((Math.abs((fileSizeL / (8*1024)) / uniqueElements) * relComplexity) / (fileSizeL / totalElements)) * 10;
+		String complexityScoreStage = "";
+		
+		if(complexityScore > 400)
+			complexityScoreStage = "Decorative";
+		if(complexityScore <= 400)
+			complexityScoreStage = "Development";
+		if(complexityScore <= 50)
+			complexityScoreStage = "Design";
+		
 		
 		//Calculating file size
 		String[] fileSizeUnits = {"B", "KB", "MB", "GB", "TB"};
@@ -88,7 +98,7 @@ public class AdvancedMetricsAnalyser extends AbstractAnalyser {
 		
 		//FOR LARGE NUMBERS TRY TO USE NICE FORMATTING -eg 1,234,567,000
 		addMetric("File Name", f.getName(), fileSize);
-		addMetric("Relative Complexity", Math.round(relativeComplexity) + "/100", "");
+		addMetric("Complexity Score", Math.round(complexityScore) + "", complexityScoreStage + " stage");
 		addMetric("Average number of children" , "" + Math.round((totalChildren / totalElements)*100.0)/100.0, "");
 		addMetric("Element with most children" , biggestParent.getName(), maxChildren + " child elements");
 		addMetric("Most refered Element", mostRefered, maxReferalsNum + " number of referals");
