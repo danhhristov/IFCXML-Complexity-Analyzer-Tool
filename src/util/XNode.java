@@ -3,6 +3,12 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  XNOde is a custom helper class that aims to use tree-like structure
+ *  to enable detailed analysis of each IFCXML element.
+ * @author Daniel Hristov (2018)
+ *
+ */
 public class XNode {
 	private String id;
 	private String attrId;
@@ -15,6 +21,12 @@ public class XNode {
 		childrenIDs = new ArrayList<String>();
 		references = new ArrayList<String>();
 	}
+	
+	
+	/**
+	 * Getters and Setters for the properties of the XNode Object
+	 * 
+	 */
 	
 	public String getName(){
 		return this.name;

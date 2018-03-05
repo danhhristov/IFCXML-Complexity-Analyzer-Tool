@@ -1,12 +1,11 @@
 package util;
 
 /**
- * FrameDetails is a Data Container for data that goes together when creating a
+ * FrameDetails is a custom helper class for data that goes together when creating a
  * Frame Object. It is used to improve readability and reduce the complexity of
  * passing multiple arguments in method calls.
  * 
- * @author dhris
- *
+ * @author Daniel Hristov (2018)
  */
 public class FrameDetails {
 	public String title;

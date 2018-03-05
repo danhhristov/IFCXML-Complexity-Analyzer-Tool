@@ -7,7 +7,11 @@ import javax.swing.JFileChooser;
 import core.IStorage;
 import core.SimpleMetricsAnalyser;
 import gui.IFrame;
-
+/**
+ * A listener to get the selected file by the user, store it in the Storage object and perform a simple Analysis on it.
+ * 
+ * @author Daniel Hristov (2018)
+ */
 public class SelectFileListener implements ActionListener {
 	private IFrame frame;
 	private IStorage storage;

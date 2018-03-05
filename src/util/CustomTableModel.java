@@ -5,6 +5,11 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * A custom helper Class that is used for populating and manipulating cutom data in a table.
+ * 
+ * @author Daniel Hristov (2018)
+ */
 public class CustomTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columns = { "Metric Description", "Value", "More info" };
@@ -17,6 +22,10 @@ public class CustomTableModel extends AbstractTableModel {
 		values = new ArrayList<String>();
 		moreInfo = new ArrayList<String>();
 	}
+	
+	/**
+	 * Getters, Setters and default methods for a Table Model.
+	 */
 
 	@Override
 	public int getRowCount() {

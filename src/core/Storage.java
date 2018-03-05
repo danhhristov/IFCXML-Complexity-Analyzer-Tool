@@ -15,6 +15,12 @@ import util.StatusType;
 import util.TableRow;
 import util.UpdateType;
 
+/**
+ * A back-end (Model) class that contains and manipulates most of the data
+ * and communication with utility classes that perform analysis.
+ * 
+ * @author Daniel Hristov (2018)
+ */
 public class Storage extends java.util.Observable implements IStorage, Observer {
 	private File subject;
 	private String simpleFileStats;
@@ -30,9 +36,50 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 		this.currAnalyser = new SimpleMetricsAnalyser();
 		this.currAnalyser.addObserver(this);
 		this.tmodel = new CustomTableModel();
-
 	}
-
+	
+	/**
+	 * notify all observers of a change
+	 */
+	private void update() {
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * A customized version of the Observer pattern 'update' method.
+	 * This method gets the update status from the observables it observers
+	 * and decides how to proceed
+	 * @requires The observable this storage is observing to provide a method
+	 * which returns an Integer. e.g. AnalyserStatus.Completed
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		int status = this.currAnalyser.getStatus();
+		if (status == AnalyserStatus.COMPLETED) {
+			if (this.currAnalyser instanceof SimpleMetricsAnalyser) {
+				this.updateType = UpdateType.SIMPLE_STATISTICS;
+				setSimpleFileStatistics(currAnalyser.getFileStats());
+			} else if (this.currAnalyser instanceof AdvancedMetricsAnalyser) {
+				this.updateType = UpdateType.TABLE_STATISTICS;
+				resetTable();
+				//get all the data from the analyser and add it to the table model
+				for(TableRow row: this.currAnalyser.getTableData()){
+					addTableRow(row);
+				}
+				
+			}
+			setStatus("Analysis Completed", StatusType.SUCCESS);
+		} else if (status == AnalyserStatus.ERROR){
+			this.updateType = UpdateType.STATUS;
+			setStatus("An unexpected error occured. Check  the console for more info.", StatusType.ERROR);
+		}
+	}
+	
+	/**
+	 * Getters and Setters for the Storage Object's properties
+	 */
+	
 	@Override
 	public File getFile() {
 		return this.subject;
@@ -40,23 +87,24 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 
 	@Override
 	public void setFile(File f) {
-		//Garbage collection before setting new file.
+		//Attempt for Garbage collection before setting new file to try and avoid using up all of the allocated memory
+		//and/or running out of memory.
 		System.gc();
 		if (f != null)
 			this.subject = f;
 		setStatus("File Loaded", StatusType.SUCCESS);
 	}
 
+	/**
+	 * Sets the status of the app to the given String and updates the status type.
+	 * @param msg: String the new app status
+	 * @param statusType: Integer a status type e.g. StatusType.SUCCESS
+	 */
 	@Override
 	public void setStatus(String msg, int statusType) {
 		this.status = msg;
 		this.statusType = statusType;
 		update();
-	}
-
-	private void update() {
-		setChanged();
-		notifyObservers();
 	}
 
 	@Override
@@ -82,25 +130,6 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 		return this.statusType;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		int status = this.currAnalyser.getStatus();
-		if (status == AnalyserStatus.COMPLETED) {
-			if (this.currAnalyser instanceof SimpleMetricsAnalyser) {
-				this.updateType = UpdateType.SIMPLE_STATISTICS;
-				setSimpleFileStatistics(currAnalyser.getFileStats());
-			} else if (this.currAnalyser instanceof AdvancedMetricsAnalyser) {
-				this.updateType = UpdateType.TABLE_STATISTICS;
-				resetTable();
-				//get all the data from the analyser and add it to the table model
-				for(TableRow row: this.currAnalyser.getTableData()){
-					addTableRow(row);
-				}
-			}
-			setStatus("Analysis Completed", StatusType.SUCCESS);
-		}
-	}
-
 	private void setSimpleFileStatistics(String s) {
 		this.simpleFileStats = s;
 	}
@@ -115,6 +144,9 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 		return this.simpleFileStats;
 	}
 
+	/**
+	 * Start analysing the current file with the currently selected Analyser
+	 */
 	@Override
 	public void setStartAnalysis() {
 		

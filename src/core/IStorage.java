@@ -7,6 +7,11 @@ import javax.swing.table.TableModel;
 
 import util.TableRow;
 
+/**
+ * An Interface for the Storage (Model) class.
+ * 
+ * @author Daniel Hristov (2018)
+ */
 public interface IStorage {
 
 	public File getFile();

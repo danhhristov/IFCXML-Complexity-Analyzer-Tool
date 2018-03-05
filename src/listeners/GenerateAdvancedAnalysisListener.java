@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 import core.AdvancedMetricsAnalyser;
 import core.IStorage;
 
+/**
+ * A listener for setting the storage's analyser to AdvancedMetricsAnalyser and performing analysis
+ * 
+ * @author Daniel Hristov (2018)
+ */
 public class GenerateAdvancedAnalysisListener implements ActionListener{
 	
 	private IStorage storage;
