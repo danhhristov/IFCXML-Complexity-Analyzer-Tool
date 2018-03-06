@@ -27,10 +27,10 @@ public class SelectFileListener implements ActionListener {
 		int returnVal = fc.showOpenDialog(frame.getFrame());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			storage.setFile(fc.getSelectedFile());
-			
-			storage.setAnalyser(new SimpleMetricsAnalyser());
-			storage.setStartAnalysis();
+			if(storage.setFile(fc.getSelectedFile())){
+				storage.setAnalyser(new SimpleMetricsAnalyser());
+				storage.setStartAnalysis();
+			}
 		}
 	}
 

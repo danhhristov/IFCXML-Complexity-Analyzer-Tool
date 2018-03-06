@@ -85,14 +85,28 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 		return this.subject;
 	}
 
+	/**
+	 * Load file to be analysed.
+	 * If the file is not supported, show appropriate error message.
+	 * If the file is okay, set status to success and return true;
+	 * @return true if the file is set or false if an error occured
+	 */
 	@Override
-	public void setFile(File f) {
+	public boolean setFile(File f) {
 		//Attempt for Garbage collection before setting new file to try and avoid using up all of the allocated memory
 		//and/or running out of memory.
 		System.gc();
-		if (f != null)
-			this.subject = f;
-		setStatus("File Loaded", StatusType.SUCCESS);
+		if (f != null){
+			if(f.getName().endsWith(".ifcxml")){
+				this.subject = f;
+				setStatus("File Loaded", StatusType.SUCCESS);
+				return true;
+			}
+			setStatus("File type not supported", StatusType.ERROR);
+			return false;
+		}
+		setStatus("Problem with loading the file", StatusType.ERROR);
+		return false;
 	}
 
 	/**
@@ -176,10 +190,9 @@ public class Storage extends java.util.Observable implements IStorage, Observer 
 	@Override
 	public TableRow getTableRow(int index) {
 		TableRow trow = new TableRow();
-		trow.setMetric((String) tmodel.getValueAt(index, 1));
-		trow.setValue((String) tmodel.getValueAt(index, 2));
-		trow.setMoreInfo((String) tmodel.getValueAt(index, 3));
-		System.out.println(trow.getMetric() + ", " + trow.getValue() + ", " + trow.getMoreInfo());
+		trow.setMetric((String) tmodel.getValueAt(index, 0));
+		trow.setValue((String) tmodel.getValueAt(index, 1));
+		trow.setMoreInfo((String) tmodel.getValueAt(index, 2));
 		return trow;
 	}
 	

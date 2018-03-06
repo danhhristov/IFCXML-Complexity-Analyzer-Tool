@@ -55,7 +55,7 @@ public class Frame implements IFrame, Observer {
 			+ "<br>To see more detailed statistics and information about the file, please navigate to the 'Detailed Stats' tab."
 			+ "<br>Once you have a file loaded in, you can click the button on the bottom to generate the detailed statistics."
 			+ "<br>If you wish to select another file for analysis, just head back to the 'Simple Stats' tab and load the new file."
-			+ "<br>For further help please refer to the user manual.</p>"
+			+ "<br>For further help and full details about each metric please refer to the user manual.</p>"
 			+ "<br><br><br><p style='width: 750px; text-align: center;'><b><i>Created by Daniel Hristov</i></b></p></html>";
 
 	public Frame(FrameDetails fd, IStorage s) {

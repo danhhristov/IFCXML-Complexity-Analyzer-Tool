@@ -16,7 +16,7 @@ public interface IStorage {
 
 	public File getFile();
 
-	public void setFile(File f);
+	public boolean setFile(File f);
 
 	public String getFileStatistics();
 	
