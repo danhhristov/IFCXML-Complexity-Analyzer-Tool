@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="gui.IFrame" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/gui/IFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="360" y="1509"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="listeners.SelectFileListener" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/listeners/SelectFileListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="353" y="1749"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="core.AbstractAnalyser" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/AbstractAnalyser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="249" width="260" x="1561" y="444"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="util.CustomTableModel" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/CustomTableModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="340" width="194" x="1067" y="1347"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="gui.Frame" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/gui/Frame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="574" width="205" x="495" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="util.TableRow" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/TableRow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="250" width="161" x="1601" y="1347"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="util.XNode" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/XNode.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="376" width="397" x="1878" y="1383"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="util.UpdateType" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/UpdateType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="173" x="330" y="444"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="9" language="java" name="core.IStorage" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/IStorage.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="322" width="335" x="588" y="1402"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="10" language="java" name="listeners.GenerateAdvancedAnalysisListener" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/listeners/GenerateAdvancedAnalysisListener.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="106" width="287" x="740" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="util.SAX_Parser" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/SAX_Parser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="286" width="304" x="1868" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="core.SimpleMetricsAnalyser" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/SimpleMetricsAnalyser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="205" x="1335" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="core.Storage" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/Storage.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="502" width="228" x="1067" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="util.AnalyserStatus" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/AnalyserStatus.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="129" x="649" y="444"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="core.AdvancedMetricsAnalyser" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/AdvancedMetricsAnalyser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="178" width="227" x="1601" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="util.FrameDetails" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/FrameDetails.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="230" x="925" y="444"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" name="core.IAnalyser" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/core/IAnalyser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="205" x="1356" y="1347"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="18" language="java" name="util.StatusType" project="408_Individual_Project" 
+    file="/408_Individual_Project/src/util/StatusType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="111" x="1302" y="444"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="19">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="20" name="tmodel"/>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="22">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="9"/>  
+  </realization>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="24">    
+    <bendpoint x="1876" y="1313"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="25" name="toReference"/>      
+      <multiplicity id="26" minimum="0" maximum="2147483647">        
+        <position height="18" width="25" x="1845" y="1332"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="28" name="storage"/>      
+      <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <bendpoint x="641" y="1356"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="31" name="storage"/>      
+      <multiplicity id="32" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="33">    
+    <bendpoint x="2155" y="1297"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="34" name="currChildren"/>      
+      <multiplicity id="35" minimum="0" maximum="2147483647">        
+        <position height="18" width="25" x="2061" y="1334"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="36">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <association id="37">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="38" name="frame"/>      
+      <multiplicity id="39" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="40">    
+    <bendpoint x="2380" y="1621"/>    
+    <bendpoint x="2379" y="1715"/>    
+    <bendpoint x="2322" y="1725"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="41" name="referencedNodes"/>      
+      <multiplicity id="42" minimum="0" maximum="2147483647">        
+        <position height="18" width="25" x="2291" y="1666"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="43">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="44">    
+    <bendpoint x="2240" y="1345"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="45" name="nodes"/>      
+      <multiplicity id="46" minimum="0" maximum="2147483647">        
+        <position height="18" width="25" x="2177" y="1333"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="47">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <realization id="48">    
+    <bendpoint x="1573" y="733"/>    
+    <bendpoint x="1534" y="1055"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="49">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="50" name="storage"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <bendpoint x="2000" y="1289"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="53" name="currNodes"/>      
+      <multiplicity id="54" minimum="0" maximum="2147483647">        
+        <position height="18" width="25" x="1956" y="1330"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="55">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="56" name="metricsInfo"/>      
+      <multiplicity id="57" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="58">    
+    <bendpoint x="1841" y="1491"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="59" name="nodes">        
+        <position height="20" width="43" x="1831" y="1525"/>      
+      </attribute>      
+      <multiplicity id="60" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="61">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="62" name="currAnalyser"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

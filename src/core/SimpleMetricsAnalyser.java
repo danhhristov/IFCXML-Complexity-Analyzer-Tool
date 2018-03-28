@@ -14,7 +14,7 @@ import util.XNode;
  * 
  * @author Daniel Hristov (2018)
  */
-public class SimpleMetricsAnalyser extends AbstractAnalyser implements IAnalyser {
+public class SimpleMetricsAnalyser extends AbstractAnalyser{
 
 	/**
 	 * Analyse a file and produce some simple statistics about it.
