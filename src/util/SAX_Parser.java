@@ -152,16 +152,19 @@ public class SAX_Parser extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
+		if (simpleParse) return;
 		// Creating a tree-like structure (adding each element's children) Part(2/2)
 		if (currNodes.isEmpty())
 			return;
 		XNode temp = currNodes.get(currNodes.size() - 1);
-		if (!currChildren.isEmpty()) {
+ 		if (!currChildren.isEmpty()) {
 			for (int j = 0; j < currChildren.size(); j++) {
 				temp.addChidrenId(currChildren.get(j).getId());
 			}
+			currChildren.clear();
+		}else{
+			currChildren.add(temp);
 		}
-		currChildren.add(temp);
 		currNodes.remove(currNodes.size() - 1);
 	}
 
